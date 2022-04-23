@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Patrick Dowling
+// Copyright (c) 2016-2022 Patrick Dowling
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -104,7 +104,7 @@ public:
   void drawStr(coord_t x, coord_t y, const char *str);
 
   // Might be time-consuming
-  void printf(const char *fmt, ...);
+  void printf(const char *fmt, ...) __attribute__((format(printf, 2, 3)));
 
   inline void drawAlignedByte(coord_t x, coord_t y, uint8_t byte) __attribute__((always_inline));
 

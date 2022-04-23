@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Patrick Dowling
+// Copyright (c) 2016-2022 Patrick Dowling
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,6 @@
 #include <utility>
 
 namespace weegfx {
-
-using weegfx::Graphics;
 
 // TODO
 // - Bench templated draw_pixel_row (inlined versions) vs. function pointers
