@@ -62,21 +62,21 @@ namespace weegfx {
 // clang-format off
 template <PIXEL_OP op>
 inline uint8_t pixel_op_impl(uint8_t a, uint8_t n) __attribute__((always_inline));
-template <> inline uint8_t pixel_op_impl<PIXEL_OP_OR>(uint8_t a, uint8_t b) { return a | b; };
-template <> inline uint8_t pixel_op_impl<PIXEL_OP_XOR>(uint8_t a, uint8_t b) { return a ^ b; };
-template <> inline uint8_t pixel_op_impl<PIXEL_OP_SRC>(uint8_t, uint8_t b) { return b; };
-template <> inline uint8_t pixel_op_impl<PIXEL_OP_NAND>(uint8_t a, uint8_t b) { return a & ~b; };
+template <> inline uint8_t pixel_op_impl<PIXEL_OP_OR>(uint8_t a, uint8_t b) { return a | b; }
+template <> inline uint8_t pixel_op_impl<PIXEL_OP_XOR>(uint8_t a, uint8_t b) { return a ^ b; }
+template <> inline uint8_t pixel_op_impl<PIXEL_OP_SRC>(uint8_t, uint8_t b) { return b; }
+template <> inline uint8_t pixel_op_impl<PIXEL_OP_NAND>(uint8_t a, uint8_t b) { return a & ~b; }
 
-template <PIXEL_OP pixel_op> inline void draw_pixel_row(uint8_t *dst, weegfx::coord_t count, uint8_t mask) __attribute__((always_inline));
-template <PIXEL_OP pixel_op> inline void draw_pixel_row(uint8_t *dst, weegfx::coord_t count, const uint8_t *src) __attribute__((always_inline));
-template <PIXEL_OP pixel_op> inline void draw_pixel_row_lshift(uint8_t *dst, weegfx::coord_t count, const uint8_t *src, int shift) __attribute__((always_inline));
-template <PIXEL_OP pixel_op> inline void draw_pixel_row_rshift(uint8_t *dst, weegfx::coord_t count, const uint8_t *src, int shift) __attribute__((always_inline));
-template <PIXEL_OP pixel_op> inline void draw_rect(uint8_t *buf, weegfx::coord_t y, weegfx::coord_t w, weegfx::coord_t h) __attribute__((always_inline));
+template <PIXEL_OP pixel_op> inline void draw_pixel_row(uint8_t *dst, coord_t count, uint8_t mask) __attribute__((always_inline));
+template <PIXEL_OP pixel_op> inline void draw_pixel_row(uint8_t *dst, coord_t count, const uint8_t *src) __attribute__((always_inline));
+template <PIXEL_OP pixel_op> inline void draw_pixel_row_lshift(uint8_t *dst, coord_t count, const uint8_t *src, int shift) __attribute__((always_inline));
+template <PIXEL_OP pixel_op> inline void draw_pixel_row_rshift(uint8_t *dst, coord_t count, const uint8_t *src, int shift) __attribute__((always_inline));
+template <PIXEL_OP pixel_op> inline void draw_rect(uint8_t *buf, coord_t y, coord_t w, coord_t h) __attribute__((always_inline));
 template <PIXEL_OP pixel_op> inline void blit(uint8_t *dst, coord_t y, coord_t w, coord_t h, const uint8_t *src);
 // clang-format on
 
 template <PIXEL_OP pixel_op>
-inline void draw_pixel_row(uint8_t *dst, weegfx::coord_t count, uint8_t mask)
+inline void draw_pixel_row(uint8_t *dst, coord_t count, uint8_t mask)
 {
   while (count--) {
     *dst = pixel_op_impl<pixel_op>(*dst, mask);
@@ -85,7 +85,7 @@ inline void draw_pixel_row(uint8_t *dst, weegfx::coord_t count, uint8_t mask)
 }
 
 template <PIXEL_OP pixel_op>
-inline void draw_pixel_row(uint8_t *dst, weegfx::coord_t count, const uint8_t *src)
+inline void draw_pixel_row(uint8_t *dst, coord_t count, const uint8_t *src)
 {
   while (count--) {
     *dst = pixel_op_impl<pixel_op>(*dst, *src);
@@ -95,8 +95,7 @@ inline void draw_pixel_row(uint8_t *dst, weegfx::coord_t count, const uint8_t *s
 }
 
 template <PIXEL_OP pixel_op>
-inline void draw_pixel_row_lshift(uint8_t *dst, weegfx::coord_t count, const uint8_t *src,
-                                  int shift)
+inline void draw_pixel_row_lshift(uint8_t *dst, coord_t count, const uint8_t *src, int shift)
 {
   while (count--) {
     *dst = pixel_op_impl<pixel_op>(*dst, *src << shift);
@@ -106,8 +105,7 @@ inline void draw_pixel_row_lshift(uint8_t *dst, weegfx::coord_t count, const uin
 }
 
 template <PIXEL_OP pixel_op>
-inline void draw_pixel_row_rshift(uint8_t *dst, weegfx::coord_t count, const uint8_t *src,
-                                  int shift)
+inline void draw_pixel_row_rshift(uint8_t *dst, coord_t count, const uint8_t *src, int shift)
 {
   while (count--) {
     *dst = pixel_op_impl<pixel_op>(*dst, *src >> shift);
@@ -117,9 +115,9 @@ inline void draw_pixel_row_rshift(uint8_t *dst, weegfx::coord_t count, const uin
 }
 
 template <PIXEL_OP pixel_op>
-inline void draw_rect(uint8_t *buf, weegfx::coord_t y, weegfx::coord_t w, weegfx::coord_t h)
+inline void draw_rect(uint8_t *buf, coord_t y, coord_t w, coord_t h)
 {
-  weegfx::coord_t remainder = y & 0x7;
+  coord_t remainder = y & 0x7;
   if (remainder) {
     remainder = 8 - remainder;
     uint8_t mask = ~(0xff >> remainder);
@@ -587,8 +585,8 @@ void Graphics::print(const char *s, unsigned len)
 
 void Graphics::print_right(const char *s)
 {
-  weegfx::coord_t x = text_x_;
-  weegfx::coord_t y = text_y_;
+  coord_t x = text_x_;
+  coord_t y = text_y_;
   const char *c = s;
   while (*c) ++c;  // find end
 
